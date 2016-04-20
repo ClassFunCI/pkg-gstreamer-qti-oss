@@ -1,7 +1,7 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 pkgname=gstreamer
-pkgver=1.8.0
+pkgver=1.8.1
 pkgrel=1
 pkgdesc="GStreamer Multimedia Framework"
 arch=('i686' 'x86_64')
@@ -11,7 +11,7 @@ depends=('libxml2' 'glib2')
 optdepends=('sh: feedback script')
 makedepends=('intltool' 'pkgconfig' 'gtk-doc' 'gobject-introspection')
 source=(${url}/src/gstreamer/gstreamer-${pkgver}.tar.xz)
-sha256sums=('947a314a212b5d94985d89b43440dbe66b696e12bbdf9a2f78967b98d74abedc')
+sha256sums=('5a3722fb9302dd977c17ced4240293dc777cb716dc98c8cca63d75c27e5e3107')
 
 build() {
   cd "${srcdir}/gstreamer-${pkgver}"
