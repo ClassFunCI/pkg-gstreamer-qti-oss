@@ -26,7 +26,7 @@ pkgname=(
   gstreamer-docs
 )
 pkgver=1.22.3
-pkgrel=3
+pkgrel=4
 pkgdesc="Multimedia graph framework"
 url="https://gstreamer.freedesktop.org/"
 arch=(x86_64)
@@ -58,7 +58,7 @@ makedepends=(
   qrencode json-glib libva libxkbcommon-x11
 
   # gst-plugins-ugly
-  a52dec opencore-amr libcdio libdvdread libmpeg2 libsidplay x264
+  a52dec opencore-amr libcdio libdvdread libmpeg2 x264
 
   # gst-libav
   ffmpeg
@@ -139,6 +139,7 @@ build() {
     -D gst-plugins-bad:wasapi=disabled
     -D gst-plugins-bad:wic=disabled
     -D gst-plugins-bad:win32ipc=disabled
+    -D gst-plugins-ugly:sidplay=disabled
     -D gst-editing-services:validate=disabled
   )
 
@@ -633,7 +634,7 @@ package_gst-plugins-ugly() {
   pkgdesc+=" - ugly plugins"
   depends=(
     "gst-plugins-base-libs=$pkgver"
-    libdvdread libmpeg2 a52dec libsidplay libcdio x264 opencore-amr
+    libdvdread libmpeg2 a52dec libcdio x264 opencore-amr
   )
 
   cd root; local files=(
@@ -647,7 +648,6 @@ package_gst-plugins-ugly() {
     usr/lib/gstreamer-1.0/libgstdvdsub.so
     usr/lib/gstreamer-1.0/libgstmpeg2dec.so
     usr/lib/gstreamer-1.0/libgstrealmedia.so
-    usr/lib/gstreamer-1.0/libgstsid.so
     usr/lib/gstreamer-1.0/libgstx264.so
 
     usr/share/gstreamer-1.0/presets/Gst{Amrnb,X264}Enc.prs
