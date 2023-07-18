@@ -699,15 +699,13 @@ package_gst-editing-services() {
     usr/lib/gstreamer-1.0/libgstnle.so
 
     usr/lib/python*/site-packages/gi/overrides/GES.py
+    usr/lib/python*/site-packages/gi/overrides/__pycache__/GES.*.pyc
 
     usr/bin/ges-launch-1.0
     usr/share/man/man1/ges-launch-1.0.1
 
     usr/share/bash-completion/completions/ges-launch-1.0
   ); _install
-
-  python -m compileall -d /usr/lib "$pkgdir/usr/lib"
-  python -O -m compileall -d /usr/lib "$pkgdir/usr/lib"
 }
 
 package_gstreamer-vaapi() {
@@ -727,9 +725,6 @@ package_gst-python() {
     usr/lib/gstreamer-1.0/libgstpython.so
     usr/lib/python*/site-packages/gi/overrides
   ); _install
-
-  python -m compileall -d /usr/lib "$pkgdir/usr/lib"
-  python -O -m compileall -d /usr/lib "$pkgdir/usr/lib"
 }
 
 package_gstreamer-docs() {
