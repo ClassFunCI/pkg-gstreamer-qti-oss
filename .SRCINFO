@@ -1,7 +1,7 @@
 pkgbase = gstreamer
 	pkgdesc = Multimedia graph framework
 	pkgver = 1.24.1
-	pkgrel = 2
+	pkgrel = 3
 	url = https://gstreamer.freedesktop.org/
 	arch = x86_64
 	license = LGPL-2.1-or-later
@@ -135,6 +135,7 @@ pkgbase = gstreamer
 	makedepends = ffmpeg
 	makedepends = libxrandr
 	makedepends = python-gobject
+	makedepends = python-setuptools
 	source = git+https://gitlab.freedesktop.org/gstreamer/gstreamer.git?signed#tag=1.24.1
 	source = https://gstreamer.freedesktop.org/src/gstreamer-docs/gstreamer-docs-1.24.1.tar.xz
 	source = https://gstreamer.freedesktop.org/src/gstreamer-docs/gstreamer-docs-1.24.1.tar.xz.asc
