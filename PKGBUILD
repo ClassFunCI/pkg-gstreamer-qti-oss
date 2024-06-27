@@ -11,6 +11,7 @@ pkgname=(
   gst-plugins-bad
   gst-plugin-gtk
   gst-plugin-msdk
+  gst-plugin-onnx
   gst-plugin-opencv
   gst-plugin-qml6
   gst-plugin-qmlgl
@@ -126,6 +127,7 @@ makedepends=(
   nasm
   neon
   nettle
+  onnxruntime
   openal
   opencore-amr
   opencv
@@ -223,7 +225,6 @@ build() {
     -D gst-plugins-bad:isac=disabled
     -D gst-plugins-bad:magicleap=disabled
     -D gst-plugins-bad:mfx_api=oneVPL
-    -D gst-plugins-bad:onnx=disabled
     -D gst-plugins-bad:openh264=disabled
     -D gst-plugins-bad:openni2=disabled
     -D gst-plugins-bad:opensles=disabled
@@ -867,6 +868,23 @@ package_gst-plugin-opencv() {
     usr/lib/libgstopencv-1.0.so*
 
     usr/lib/gstreamer-1.0/libgstopencv.so
+  ); _install
+}
+
+package_gst-plugin-onnx() {
+  pkgdesc+=" - onnx plugin"
+  depends=(
+    "gst-plugins-bad-libs=$pkgver-$pkgrel"
+    "gst-plugins-base-libs=$pkgver-$pkgrel"
+    "gstreamer=$pkgver-$pkgrel"
+    gcc-libs
+    glib2
+    glibc
+    onnxruntime
+  )
+
+  cd root; local files=(
+    usr/lib/gstreamer-1.0/libgstonnx.so
   ); _install
 }
 
