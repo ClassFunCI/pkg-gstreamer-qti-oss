@@ -77,6 +77,7 @@ pkgbase = gstreamer
 	makedepends = libva
 	makedepends = libvpl
 	makedepends = libvpx
+	makedepends = libwpe
 	makedepends = libx11
 	makedepends = libxcb
 	makedepends = libxdamage
@@ -144,6 +145,7 @@ pkgbase = gstreamer
 	makedepends = wayland-protocols
 	makedepends = webrtc-audio-processing-1
 	makedepends = wildmidi
+	makedepends = wpebackend-fdo
 	makedepends = wpewebkit
 	makedepends = x264
 	makedepends = zbar
@@ -347,6 +349,28 @@ pkgname = gst-plugins-bad
 	depends = zvbi
 	depends = zxing-cpp
 
+pkgname = gst-plugins-ugly
+	pkgdesc = Multimedia graph framework - ugly plugins
+	depends = gst-plugins-base-libs=1.24.8-1
+	depends = gstreamer=1.24.8-1
+	depends = a52dec
+	depends = glib2
+	depends = glibc
+	depends = libcdio
+	depends = libdvdread
+	depends = libmpeg2
+	depends = orc
+	depends = x264
+
+pkgname = gst-libav
+	pkgdesc = Multimedia graph framework - libav plugin
+	depends = gst-plugins-base-libs=1.24.8-1
+	depends = gstreamer=1.24.8-1
+	depends = ffmpeg
+	depends = glib2
+	depends = glibc
+	provides = gst-ffmpeg=1.24.8-1
+
 pkgname = gst-plugin-gtk
 	pkgdesc = Multimedia graph framework - gtk plugin
 	depends = gst-plugins-bad-libs=1.24.8-1
@@ -447,28 +471,6 @@ pkgname = gst-plugin-wpe
 	depends = wayland
 	depends = wpebackend-fdo
 	depends = wpewebkit
-
-pkgname = gst-plugins-ugly
-	pkgdesc = Multimedia graph framework - ugly plugins
-	depends = gst-plugins-base-libs=1.24.8-1
-	depends = gstreamer=1.24.8-1
-	depends = a52dec
-	depends = glib2
-	depends = glibc
-	depends = libcdio
-	depends = libdvdread
-	depends = libmpeg2
-	depends = orc
-	depends = x264
-
-pkgname = gst-libav
-	pkgdesc = Multimedia graph framework - libav plugin
-	depends = gst-plugins-base-libs=1.24.8-1
-	depends = gstreamer=1.24.8-1
-	depends = ffmpeg
-	depends = glib2
-	depends = glibc
-	provides = gst-ffmpeg=1.24.8-1
 
 pkgname = gst-devtools-libs
 	pkgdesc = Multimedia graph framework - development and debugging libraries

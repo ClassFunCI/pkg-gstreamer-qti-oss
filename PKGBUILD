@@ -9,6 +9,8 @@ pkgname=(
   gst-plugins-base
   gst-plugins-good
   gst-plugins-bad
+  gst-plugins-ugly
+  gst-libav
   gst-plugin-gtk
   gst-plugin-msdk
   gst-plugin-onnx
@@ -18,8 +20,6 @@ pkgname=(
   gst-plugin-qsv
   gst-plugin-va
   gst-plugin-wpe
-  gst-plugins-ugly
-  gst-libav
   gst-devtools-libs
   gst-devtools
   gst-rtsp-server
@@ -106,6 +106,7 @@ makedepends=(
   libva
   libvpl
   libvpx
+  libwpe
   libx11
   libxcb
   libxdamage
@@ -173,6 +174,7 @@ makedepends=(
   wayland-protocols
   webrtc-audio-processing-1
   wildmidi
+  wpebackend-fdo
   wpewebkit
   x264
   zbar
@@ -813,6 +815,54 @@ package_gst-plugins-bad() {
   ); _install
 }
 
+package_gst-plugins-ugly() {
+  pkgdesc+=" - ugly plugins"
+  depends=(
+    "gst-plugins-base-libs=$pkgver-$pkgrel"
+    "gstreamer=$pkgver-$pkgrel"
+    a52dec
+    glib2
+    glibc
+    libcdio
+    libdvdread
+    libmpeg2
+    orc
+    x264
+  )
+
+  cd root; local files=(
+    usr/lib/gstreamer-1.0/libgsta52dec.so
+    usr/lib/gstreamer-1.0/libgstasf.so
+    usr/lib/gstreamer-1.0/libgstcdio.so
+    usr/lib/gstreamer-1.0/libgstdvdlpcmdec.so
+    usr/lib/gstreamer-1.0/libgstdvdread.so
+    usr/lib/gstreamer-1.0/libgstdvdsub.so
+    usr/lib/gstreamer-1.0/libgstmpeg2dec.so
+    usr/lib/gstreamer-1.0/libgstrealmedia.so
+    usr/lib/gstreamer-1.0/libgstx264.so
+
+    usr/share/gstreamer-1.0/presets/GstX264Enc.prs
+
+    usr/share/locale/*/LC_MESSAGES/gst-plugins-ugly-1.0.mo
+  ); _install
+}
+
+package_gst-libav() {
+  pkgdesc+=" - libav plugin"
+  depends=(
+    "gst-plugins-base-libs=$pkgver-$pkgrel"
+    "gstreamer=$pkgver-$pkgrel"
+    ffmpeg
+    glib2
+    glibc
+  )
+  provides=("gst-ffmpeg=$pkgver-$pkgrel")
+
+  cd root; local files=(
+    usr/lib/gstreamer-1.0/libgstlibav.so
+  ); _install
+}
+
 package_gst-plugin-gtk() {
   pkgdesc+=" - gtk plugin"
   depends=(
@@ -851,6 +901,23 @@ package_gst-plugin-msdk() {
   ); _install
 }
 
+package_gst-plugin-onnx() {
+  pkgdesc+=" - onnx plugin"
+  depends=(
+    "gst-plugins-bad-libs=$pkgver-$pkgrel"
+    "gst-plugins-base-libs=$pkgver-$pkgrel"
+    "gstreamer=$pkgver-$pkgrel"
+    gcc-libs
+    glib2
+    glibc
+    onnxruntime
+  )
+
+  cd root; local files=(
+    usr/lib/gstreamer-1.0/libgstonnx.so
+  ); _install
+}
+
 package_gst-plugin-opencv() {
   pkgdesc+=" - opencv plugin"
   depends=(
@@ -867,23 +934,6 @@ package_gst-plugin-opencv() {
     usr/lib/libgstopencv-1.0.so*
 
     usr/lib/gstreamer-1.0/libgstopencv.so
-  ); _install
-}
-
-package_gst-plugin-onnx() {
-  pkgdesc+=" - onnx plugin"
-  depends=(
-    "gst-plugins-bad-libs=$pkgver-$pkgrel"
-    "gst-plugins-base-libs=$pkgver-$pkgrel"
-    "gstreamer=$pkgver-$pkgrel"
-    gcc-libs
-    glib2
-    glibc
-    onnxruntime
-  )
-
-  cd root; local files=(
-    usr/lib/gstreamer-1.0/libgstonnx.so
   ); _install
 }
 
@@ -982,54 +1032,6 @@ package_gst-plugin-wpe() {
   cd root; local files=(
     usr/lib/gstreamer-1.0/libgstwpe.so
     usr/lib/gst-plugins-bad/wpe-extension/libgstwpeextension.so
-  ); _install
-}
-
-package_gst-plugins-ugly() {
-  pkgdesc+=" - ugly plugins"
-  depends=(
-    "gst-plugins-base-libs=$pkgver-$pkgrel"
-    "gstreamer=$pkgver-$pkgrel"
-    a52dec
-    glib2
-    glibc
-    libcdio
-    libdvdread
-    libmpeg2
-    orc
-    x264
-  )
-
-  cd root; local files=(
-    usr/lib/gstreamer-1.0/libgsta52dec.so
-    usr/lib/gstreamer-1.0/libgstasf.so
-    usr/lib/gstreamer-1.0/libgstcdio.so
-    usr/lib/gstreamer-1.0/libgstdvdlpcmdec.so
-    usr/lib/gstreamer-1.0/libgstdvdread.so
-    usr/lib/gstreamer-1.0/libgstdvdsub.so
-    usr/lib/gstreamer-1.0/libgstmpeg2dec.so
-    usr/lib/gstreamer-1.0/libgstrealmedia.so
-    usr/lib/gstreamer-1.0/libgstx264.so
-
-    usr/share/gstreamer-1.0/presets/GstX264Enc.prs
-
-    usr/share/locale/*/LC_MESSAGES/gst-plugins-ugly-1.0.mo
-  ); _install
-}
-
-package_gst-libav() {
-  pkgdesc+=" - libav plugin"
-  depends=(
-    "gst-plugins-base-libs=$pkgver-$pkgrel"
-    "gstreamer=$pkgver-$pkgrel"
-    ffmpeg
-    glib2
-    glibc
-  )
-  provides=("gst-ffmpeg=$pkgver-$pkgrel")
-
-  cd root; local files=(
-    usr/lib/gstreamer-1.0/libgstlibav.so
   ); _install
 }
 
