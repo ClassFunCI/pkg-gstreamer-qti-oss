@@ -23,7 +23,7 @@ SPDX-License-Identifier = "0BSD"
 
 [[annotations]]
 path = [
-    "0001-HACK-meson-Disable-broken-tests.patch",
+    "*.patch",
 ]
 SPDX-FileCopyrightText = "gstreamer contributors"
 SPDX-License-Identifier = "LGPL-2.1-or-later"
