@@ -168,7 +168,6 @@ makedepends=(
   qt6-declarative
   qt6-shadertools
   qt6-tools
-  qt6-wayland
   rtmpdump
   rust
   sbc
@@ -975,7 +974,6 @@ package_gst-plugin-qml6() {
     libglvnd
     qt6-base
     qt6-declarative
-    qt6-wayland
   )
 
   cd root; local files=(

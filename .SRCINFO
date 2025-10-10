@@ -139,7 +139,6 @@ pkgbase = gstreamer
 	makedepends = qt6-declarative
 	makedepends = qt6-shadertools
 	makedepends = qt6-tools
-	makedepends = qt6-wayland
 	makedepends = rtmpdump
 	makedepends = rust
 	makedepends = sbc
@@ -442,7 +441,6 @@ pkgname = gst-plugin-qml6
 	depends = libglvnd
 	depends = qt6-base
 	depends = qt6-declarative
-	depends = qt6-wayland
 
 pkgname = gst-plugin-qmlgl
 	pkgdesc = Multimedia graph framework - qmlgl plugin
