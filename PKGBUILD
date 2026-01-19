@@ -771,6 +771,17 @@ package_gst-plugins-bad() {
     zvbi
     zxing-cpp
   )
+  optdepends=(
+    'gst-plugin-gtk: gtk plugin'
+    'gst-plugin-msdk: msdk plugin'
+    'gst-plugin-onnx: onnx plugin'
+    'gst-plugin-opencv: opencv plugin and library'
+    'gst-plugin-qml6: qml6 plugin'
+    'gst-plugin-qmlgl: qmlgl plugin'
+    'gst-plugin-qsv: qsv plugin'
+    'gst-plugin-va: va plugin'
+    'gst-plugin-wpe: wpe plugin'
+  )
 
   cd root; local files=(
     usr/lib/gstreamer-1.0/libgstaes.so
@@ -946,7 +957,7 @@ package_gst-plugin-onnx() {
 }
 
 package_gst-plugin-opencv() {
-  pkgdesc+=" - opencv plugin"
+  pkgdesc+=" - opencv plugin and library"
   depends=(
     "gst-plugins-base-libs=$pkgver-$pkgrel"
     "gstreamer=$pkgver-$pkgrel"

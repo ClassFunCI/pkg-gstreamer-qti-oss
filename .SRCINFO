@@ -366,6 +366,15 @@ pkgname = gst-plugins-bad
 	depends = zbar
 	depends = zvbi
 	depends = zxing-cpp
+	optdepends = gst-plugin-gtk: gtk plugin
+	optdepends = gst-plugin-msdk: msdk plugin
+	optdepends = gst-plugin-onnx: onnx plugin
+	optdepends = gst-plugin-opencv: opencv plugin and library
+	optdepends = gst-plugin-qml6: qml6 plugin
+	optdepends = gst-plugin-qmlgl: qmlgl plugin
+	optdepends = gst-plugin-qsv: qsv plugin
+	optdepends = gst-plugin-va: va plugin
+	optdepends = gst-plugin-wpe: wpe plugin
 
 pkgname = gst-plugins-ugly
 	pkgdesc = Multimedia graph framework - ugly plugins
@@ -424,7 +433,7 @@ pkgname = gst-plugin-onnx
 	depends = openmpi
 
 pkgname = gst-plugin-opencv
-	pkgdesc = Multimedia graph framework - opencv plugin
+	pkgdesc = Multimedia graph framework - opencv plugin and library
 	depends = gst-plugins-base-libs=1.26.10-3
 	depends = gstreamer=1.26.10-3
 	depends = gcc-libs
