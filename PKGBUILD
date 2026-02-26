@@ -1,7 +1,7 @@
 # Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
 # Contributor: Jan de Groot <jgc@archlinux.org>
 
-pkgbase=gstreamer
+pkgbase=gstreamer-qti-oss
 pkgname=(
   gstreamer
   gst-plugins-bad-libs   # Split badaudio first
@@ -33,7 +33,7 @@ pkgver=1.28.0
 pkgrel=2
 pkgdesc="Multimedia graph framework"
 url="https://gstreamer.freedesktop.org/"
-arch=(x86_64)
+arch=('aarch64')
 license=(LGPL-2.1-or-later)
 makedepends=(
   a52dec
@@ -207,19 +207,32 @@ makedepends=(
 )
 checkdepends=(xorg-server-xvfb)
 source=(
-  "git+https://gitlab.freedesktop.org/gstreamer/gstreamer.git?signed#tag=$pkgver"
+  "git+https://gitea.classfun.cn:4443/mirrors/gstreamer.git#tag=$pkgver"
   "https://gstreamer.freedesktop.org/src/gstreamer-docs/gstreamer-docs-$pkgver.tar.xz"{,.asc}
   0001-HACK-meson-Disable-broken-tests.patch
   0002-Fix-build-with-zxing-cpp-3.patch
+  # gst-qti-oss-patches (base/good/bad prefix = subproject)
+  base_0001-video-Add-support-for-NV12_Q08C-compressed-8-bit-for.patch
+  base_0002-video-Add-support-for-NV12_Q10LE32C-compressed-10-bi.patch
+  base_0003-videometa-Update-the-aggregation-logic-for-stride-al.patch
+  good_0001-v4l2-Add-support-for-V4L2_PIX_FMT_QC08C-format.patch
+  good_0002-v4l2videoenc-Set-format-on-capture-queue-before-enco.patch
+  good_0003-v4l2-Add-v4l2av1dec-stateful-decoder-support.patch
+  good_0004-v4l2videodec-Prefer-colorimetry-from-acquired-caps.patch
+  good_0005-v4l2object-providing-aligned-size-when-propose-alloc.patch
+  good_0006-v4l2-Drop-empty-bytesused-0-buffers.patch
+  good_0007-v4l2-Handle-GAP-buffer-in-encoder.patch
+  good_0008-v4l2-Add-support-for-V4L2_PIX_FMT_QC10C-format.patch
+  bad_0001-wayland-Add-support-for-NV12_Q08C-compressed-8-bit.patch
+  bad_0002-waylandsink-Release-pending-buffers-during-PAUSED-to.patch
+  bad_0003-waylandsink-support-gap-buffers.patch
 )
-b2sums=('d9b133fdc193833d98e7d72deab13ae47dbdb6919674c7f39f73370d9e1cd2ba7cf3b41e7cce02de0c71cfa675672d38b278b71d0b88fbbd389480d8585b2eb8'
-        '0adf109836e85f6033cd310adbf7cc437c0969de68e9c35bad48a3d10d9eacd711893df5a91ce3e68f9673d90ef8e34337cc45691de051ec304356277fba7d17'
+b2sums=('SKIP'
         'SKIP'
-        'd568492ed6abe31ccf4a5053846f24262197484bee879b8fcc46478776c535e484c1b3fc0e216b9f334f0b81c0f9c46e69a64bb7d01f72c4adae6ef64e6d0420'
-        '57599ef8167a01e21c62f79062c662b6f03c022037c917cadc9d5236deef8d5d8a844c93167cddd37b49379a0d581d467e30b4e3f0e0f6bdc05eb1c3335a0181')
-validpgpkeys=(
-  D637032E45B8C6585B9456565D2EEE6F6F349D7C # Tim Müller <tim@gstreamer-foundation.org>
-)
+        'SKIP'
+        'SKIP'
+        'SKIP'
+        'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP')
 
 prepare() {
   cd gstreamer
@@ -229,6 +242,17 @@ prepare() {
 
   # Fix build with zxing-cpp 3
   git apply -3 ../0002-Fix-build-with-zxing-cpp-3.patch
+
+  # gst-qti-oss-patches (Qualcomm OSS) - base_/good_/bad_ → subprojects
+  for p in ../base_*.patch; do
+    git apply -3 --directory=subprojects/gst-plugins-base "$p"
+  done
+  for p in ../good_*.patch; do
+    git apply -3 --directory=subprojects/gst-plugins-good "$p"
+  done
+  for p in ../bad_*.patch; do
+    git apply -3 --directory=subprojects/gst-plugins-bad "$p"
+  done
 }
 
 build() {
@@ -258,6 +282,7 @@ build() {
     -D gst-plugins-bad:openni2=disabled
     -D gst-plugins-bad:opensles=disabled
     -D gst-plugins-bad:qt6d3d11=disabled
+    -D gst-plugins-bad:svthevcenc=disabled
     -D gst-plugins-bad:svtjpegxs=disabled
     -D gst-plugins-bad:tinyalsa=disabled
     -D gst-plugins-bad:voaacenc=disabled
@@ -854,7 +879,6 @@ package_gst-plugins-bad() {
     usr/lib/gstreamer-1.0/libgstsrt.so
     usr/lib/gstreamer-1.0/libgstsrtp.so
     usr/lib/gstreamer-1.0/libgstsvtav1.so
-    usr/lib/gstreamer-1.0/libgstsvthevcenc.so
     usr/lib/gstreamer-1.0/libgstteletext.so
     usr/lib/gstreamer-1.0/libgsttimecode.so
     usr/lib/gstreamer-1.0/libgstttmlsubs.so
