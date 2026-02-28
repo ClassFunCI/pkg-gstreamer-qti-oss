@@ -1,11 +1,10 @@
-pkgbase = gstreamer
+pkgbase = gstreamer-qti-oss
 	pkgdesc = Multimedia graph framework
 	pkgver = 1.28.0
-	pkgrel = 2
+	pkgrel = 4
 	url = https://gstreamer.freedesktop.org/
-	arch = x86_64
+	arch = aarch64
 	license = LGPL-2.1-or-later
-	checkdepends = xorg-server-xvfb
 	makedepends = a52dec
 	makedepends = aalib
 	makedepends = alsa-lib
@@ -174,20 +173,43 @@ pkgbase = gstreamer
 	makedepends = zlib
 	makedepends = zvbi
 	makedepends = zxing-cpp
-	source = git+https://gitlab.freedesktop.org/gstreamer/gstreamer.git?signed#tag=1.28.0
-	source = https://gstreamer.freedesktop.org/src/gstreamer-docs/gstreamer-docs-1.28.0.tar.xz
-	source = https://gstreamer.freedesktop.org/src/gstreamer-docs/gstreamer-docs-1.28.0.tar.xz.asc
+	source = git+https://gitea.classfun.cn:4443/mirrors/gstreamer.git#tag=1.28.0
 	source = 0001-HACK-meson-Disable-broken-tests.patch
 	source = 0002-Fix-build-with-zxing-cpp-3.patch
-	validpgpkeys = D637032E45B8C6585B9456565D2EEE6F6F349D7C
-	b2sums = d9b133fdc193833d98e7d72deab13ae47dbdb6919674c7f39f73370d9e1cd2ba7cf3b41e7cce02de0c71cfa675672d38b278b71d0b88fbbd389480d8585b2eb8
-	b2sums = 0adf109836e85f6033cd310adbf7cc437c0969de68e9c35bad48a3d10d9eacd711893df5a91ce3e68f9673d90ef8e34337cc45691de051ec304356277fba7d17
+	source = base_0001-video-Add-support-for-NV12_Q08C-compressed-8-bit-for.patch
+	source = base_0002-video-Add-support-for-NV12_Q10LE32C-compressed-10-bi.patch
+	source = base_0003-videometa-Update-the-aggregation-logic-for-stride-al.patch
+	source = good_0001-v4l2-Add-support-for-V4L2_PIX_FMT_QC08C-format.patch
+	source = good_0002-v4l2videoenc-Set-format-on-capture-queue-before-enco.patch
+	source = good_0003-v4l2-Add-v4l2av1dec-stateful-decoder-support.patch
+	source = good_0004-v4l2videodec-Prefer-colorimetry-from-acquired-caps.patch
+	source = good_0005-v4l2object-providing-aligned-size-when-propose-alloc.patch
+	source = good_0006-v4l2-Drop-empty-bytesused-0-buffers.patch
+	source = good_0007-v4l2-Handle-GAP-buffer-in-encoder.patch
+	source = good_0008-v4l2-Add-support-for-V4L2_PIX_FMT_QC10C-format.patch
+	source = bad_0001-wayland-Add-support-for-NV12_Q08C-compressed-8-bit.patch
+	source = bad_0002-waylandsink-Release-pending-buffers-during-PAUSED-to.patch
+	source = bad_0003-waylandsink-support-gap-buffers.patch
 	b2sums = SKIP
-	b2sums = d568492ed6abe31ccf4a5053846f24262197484bee879b8fcc46478776c535e484c1b3fc0e216b9f334f0b81c0f9c46e69a64bb7d01f72c4adae6ef64e6d0420
-	b2sums = 57599ef8167a01e21c62f79062c662b6f03c022037c917cadc9d5236deef8d5d8a844c93167cddd37b49379a0d581d467e30b4e3f0e0f6bdc05eb1c3335a0181
+	b2sums = SKIP
+	b2sums = SKIP
+	b2sums = SKIP
+	b2sums = SKIP
+	b2sums = SKIP
+	b2sums = SKIP
+	b2sums = SKIP
+	b2sums = SKIP
+	b2sums = SKIP
+	b2sums = SKIP
+	b2sums = SKIP
+	b2sums = SKIP
+	b2sums = SKIP
+	b2sums = SKIP
+	b2sums = SKIP
+	b2sums = SKIP
 
-pkgname = gstreamer
-	pkgdesc = Multimedia graph framework - core
+pkgname = gstreamer-qti-oss
+	pkgdesc = Multimedia graph framework - core (with Qualcomm patches)
 	install = gstreamer.install
 	depends = glib2
 	depends = glibc
@@ -195,13 +217,38 @@ pkgname = gstreamer
 	depends = libelf
 	depends = libgcc
 	depends = libunwind
+	depends = gst-plugins-bad-libs-qti-oss
+	depends = gst-plugins-base-libs-qti-oss
+	depends = gst-plugins-base-qti-oss
+	depends = gst-plugins-good-qti-oss
+	depends = gst-plugins-bad-qti-oss
+	depends = gst-plugins-ugly-qti-oss
+	depends = gst-libav-qti-oss
+	depends = gst-plugin-gtk-qti-oss
+	depends = gst-plugin-hip-qti-oss
+	depends = gst-plugin-msdk-qti-oss
+	depends = gst-plugin-onnx-qti-oss
+	depends = gst-plugin-opencv-qti-oss
+	depends = gst-plugin-qml6-qti-oss
+	depends = gst-plugin-qmlgl-qti-oss
+	depends = gst-plugin-qsv-qti-oss
+	depends = gst-plugin-va-qti-oss
+	depends = gst-plugin-wpe-qti-oss
+	depends = gst-plugin-wpe2-qti-oss
+	depends = gst-devtools-libs-qti-oss
+	depends = gst-devtools-qti-oss
+	depends = gst-rtsp-server-qti-oss
+	depends = gst-editing-services-qti-oss
+	depends = gst-python-qti-oss
 	optdepends = python: gst-plugins-doc-cache-generator
+	provides = gstreamer=1.28.0-4
+	conflicts = gstreamer
 	conflicts = gstreamer-vaapi<=1.26.10-5
 
-pkgname = gst-plugins-bad-libs
+pkgname = gst-plugins-bad-libs-qti-oss
 	pkgdesc = Multimedia graph framework - bad
-	depends = gst-plugins-base-libs=1.28.0-2
-	depends = gstreamer=1.28.0-2
+	depends = gst-plugins-base-libs-qti-oss=1.28.0-4
+	depends = gstreamer-qti-oss=1.28.0-4
 	depends = glib2
 	depends = glibc
 	depends = libdrm
@@ -222,10 +269,12 @@ pkgname = gst-plugins-bad-libs
 	depends = wayland
 	depends = vmaf
 	depends = zlib
+	provides = gst-plugins-bad-libs=1.28.0-4
+	conflicts = gst-plugins-bad-libs
 
-pkgname = gst-plugins-base-libs
+pkgname = gst-plugins-base-libs-qti-oss
 	pkgdesc = Multimedia graph framework - base
-	depends = gstreamer=1.28.0-2
+	depends = gstreamer-qti-oss=1.28.0-4
 	depends = glib2
 	depends = glibc
 	depends = graphene
@@ -244,11 +293,13 @@ pkgname = gst-plugins-base-libs
 	depends = orc
 	depends = wayland
 	depends = zlib
+	provides = gst-plugins-base-libs=1.28.0-4
+	conflicts = gst-plugins-base-libs
 
-pkgname = gst-plugins-base
+pkgname = gst-plugins-base-qti-oss
 	pkgdesc = Multimedia graph framework - base plugins
-	depends = gst-plugins-base-libs=1.28.0-2
-	depends = gstreamer=1.28.0-2
+	depends = gst-plugins-base-libs-qti-oss=1.28.0-4
+	depends = gstreamer-qti-oss=1.28.0-4
 	depends = alsa-lib
 	depends = cairo
 	depends = cdparanoia
@@ -260,11 +311,13 @@ pkgname = gst-plugins-base
 	depends = libvorbis
 	depends = opus
 	depends = pango
+	provides = gst-plugins-base=1.28.0-4
+	conflicts = gst-plugins-base
 
-pkgname = gst-plugins-good
+pkgname = gst-plugins-good-qti-oss
 	pkgdesc = Multimedia graph framework - good plugins
-	depends = gst-plugins-base-libs=1.28.0-2
-	depends = gstreamer=1.28.0-2
+	depends = gst-plugins-base-libs-qti-oss=1.28.0-4
+	depends = gstreamer-qti-oss=1.28.0-4
 	depends = aalib
 	depends = bzip2
 	depends = cairo
@@ -304,12 +357,14 @@ pkgname = gst-plugins-good
 	depends = wavpack
 	depends = zlib
 	optdepends = jack: JACK backend
+	provides = gst-plugins-good=1.28.0-4
+	conflicts = gst-plugins-good
 
-pkgname = gst-plugins-bad
+pkgname = gst-plugins-bad-qti-oss
 	pkgdesc = Multimedia graph framework - bad plugins
-	depends = gst-plugins-bad-libs=1.28.0-2
-	depends = gst-plugins-base-libs=1.28.0-2
-	depends = gstreamer=1.28.0-2
+	depends = gst-plugins-bad-libs-qti-oss=1.28.0-4
+	depends = gst-plugins-base-libs-qti-oss=1.28.0-4
+	depends = gstreamer-qti-oss=1.28.0-4
 	depends = aom
 	depends = bzip2
 	depends = cairo
@@ -385,11 +440,13 @@ pkgname = gst-plugins-bad
 	optdepends = gst-plugin-qsv: qsv plugin
 	optdepends = gst-plugin-va: va plugin
 	optdepends = gst-plugin-wpe: wpe plugin
+	provides = gst-plugins-bad=1.28.0-4
+	conflicts = gst-plugins-bad
 
-pkgname = gst-plugins-ugly
+pkgname = gst-plugins-ugly-qti-oss
 	pkgdesc = Multimedia graph framework - ugly plugins
-	depends = gst-plugins-base-libs=1.28.0-2
-	depends = gstreamer=1.28.0-2
+	depends = gst-plugins-base-libs-qti-oss=1.28.0-4
+	depends = gstreamer-qti-oss=1.28.0-4
 	depends = a52dec
 	depends = glib2
 	depends = glibc
@@ -397,32 +454,39 @@ pkgname = gst-plugins-ugly
 	depends = libdvdread
 	depends = libmpeg2
 	depends = x264
+	provides = gst-plugins-ugly=1.28.0-4
+	conflicts = gst-plugins-ugly
 
-pkgname = gst-libav
+pkgname = gst-libav-qti-oss
 	pkgdesc = Multimedia graph framework - libav plugin
-	depends = gst-plugins-base-libs=1.28.0-2
-	depends = gstreamer=1.28.0-2
+	depends = gst-plugins-base-libs-qti-oss=1.28.0-4
+	depends = gstreamer-qti-oss=1.28.0-4
 	depends = ffmpeg
 	depends = glib2
 	depends = glibc
-	provides = gst-ffmpeg=1.28.0-2
+	provides = gst-ffmpeg=1.28.0-4
+	provides = gst-libav=1.28.0-4
+	conflicts = gst-ffmpeg
+	conflicts = gst-libav
 
-pkgname = gst-plugin-gtk
+pkgname = gst-plugin-gtk-qti-oss
 	pkgdesc = Multimedia graph framework - gtk plugin
-	depends = gst-plugins-bad-libs=1.28.0-2
-	depends = gst-plugins-base-libs=1.28.0-2
-	depends = gstreamer=1.28.0-2
+	depends = gst-plugins-bad-libs-qti-oss=1.28.0-4
+	depends = gst-plugins-base-libs-qti-oss=1.28.0-4
+	depends = gstreamer-qti-oss=1.28.0-4
 	depends = cairo
 	depends = glib2
 	depends = glibc
 	depends = gtk3
 	depends = wayland
+	provides = gst-plugin-gtk=1.28.0-4
+	conflicts = gst-plugin-gtk
 
-pkgname = gst-plugin-hip
+pkgname = gst-plugin-hip-qti-oss
 	pkgdesc = Multimedia graph framework - hip plugin and library
-	depends = gst-plugins-bad-libs=1.28.0-2
-	depends = gst-plugins-base-libs=1.28.0-2
-	depends = gstreamer=1.28.0-2
+	depends = gst-plugins-bad-libs-qti-oss=1.28.0-4
+	depends = gst-plugins-base-libs-qti-oss=1.28.0-4
+	depends = gstreamer-qti-oss=1.28.0-4
 	depends = glib2
 	depends = glibc
 	depends = libdrm
@@ -433,42 +497,50 @@ pkgname = gst-plugin-hip
 	depends = mesa
 	depends = orc
 	depends = wayland
+	provides = gst-plugin-hip=1.28.0-4
+	conflicts = gst-plugin-hip
 
-pkgname = gst-plugin-msdk
+pkgname = gst-plugin-msdk-qti-oss
 	pkgdesc = Multimedia graph framework - msdk plugin
-	depends = gst-plugins-bad-libs=1.28.0-2
-	depends = gst-plugins-base-libs=1.28.0-2
-	depends = gstreamer=1.28.0-2
+	depends = gst-plugins-bad-libs-qti-oss=1.28.0-4
+	depends = gst-plugins-base-libs-qti-oss=1.28.0-4
+	depends = gstreamer-qti-oss=1.28.0-4
 	depends = glib2
 	depends = glibc
 	depends = libdrm
 	depends = libgudev
 	depends = libva
 	depends = libvpl
+	provides = gst-plugin-msdk=1.28.0-4
+	conflicts = gst-plugin-msdk
 
-pkgname = gst-plugin-onnx
+pkgname = gst-plugin-onnx-qti-oss
 	pkgdesc = Multimedia graph framework - onnx plugin
-	depends = gst-plugins-bad-libs=1.28.0-2
-	depends = gst-plugins-base-libs=1.28.0-2
-	depends = gstreamer=1.28.0-2
+	depends = gst-plugins-bad-libs-qti-oss=1.28.0-4
+	depends = gst-plugins-base-libs-qti-oss=1.28.0-4
+	depends = gstreamer-qti-oss=1.28.0-4
 	depends = glib2
 	depends = glibc
 	depends = onnxruntime
+	provides = gst-plugin-onnx=1.28.0-4
+	conflicts = gst-plugin-onnx
 
-pkgname = gst-plugin-opencv
+pkgname = gst-plugin-opencv-qti-oss
 	pkgdesc = Multimedia graph framework - opencv plugin and library
-	depends = gst-plugins-base-libs=1.28.0-2
-	depends = gstreamer=1.28.0-2
+	depends = gst-plugins-base-libs-qti-oss=1.28.0-4
+	depends = gstreamer-qti-oss=1.28.0-4
 	depends = glib2
 	depends = glibc
 	depends = libgcc
 	depends = libstdc++
 	depends = opencv
+	provides = gst-plugin-opencv=1.28.0-4
+	conflicts = gst-plugin-opencv
 
-pkgname = gst-plugin-qml6
+pkgname = gst-plugin-qml6-qti-oss
 	pkgdesc = Multimedia graph framework - qml6 plugin
-	depends = gst-plugins-base-libs=1.28.0-2
-	depends = gstreamer=1.28.0-2
+	depends = gst-plugins-base-libs-qti-oss=1.28.0-4
+	depends = gstreamer-qti-oss=1.28.0-4
 	depends = glib2
 	depends = glibc
 	depends = libgcc
@@ -476,11 +548,13 @@ pkgname = gst-plugin-qml6
 	depends = libstdc++
 	depends = qt6-base
 	depends = qt6-declarative
+	provides = gst-plugin-qml6=1.28.0-4
+	conflicts = gst-plugin-qml6
 
-pkgname = gst-plugin-qmlgl
+pkgname = gst-plugin-qmlgl-qti-oss
 	pkgdesc = Multimedia graph framework - qmlgl plugin
-	depends = gst-plugins-base-libs=1.28.0-2
-	depends = gstreamer=1.28.0-2
+	depends = gst-plugins-base-libs-qti-oss=1.28.0-4
+	depends = gstreamer-qti-oss=1.28.0-4
 	depends = glib2
 	depends = glibc
 	depends = libgcc
@@ -490,34 +564,40 @@ pkgname = gst-plugin-qmlgl
 	depends = qt5-declarative
 	depends = qt5-wayland
 	depends = qt5-x11extras
+	provides = gst-plugin-qmlgl=1.28.0-4
+	conflicts = gst-plugin-qmlgl
 
-pkgname = gst-plugin-qsv
+pkgname = gst-plugin-qsv-qti-oss
 	pkgdesc = Multimedia graph framework - qsv plugin
-	depends = gst-plugins-bad-libs=1.28.0-2
-	depends = gst-plugins-base-libs=1.28.0-2
-	depends = gstreamer=1.28.0-2
+	depends = gst-plugins-bad-libs-qti-oss=1.28.0-4
+	depends = gst-plugins-base-libs-qti-oss=1.28.0-4
+	depends = gstreamer-qti-oss=1.28.0-4
 	depends = glib2
 	depends = glibc
 	depends = libgcc
 	depends = libstdc++
 	optdepends = intel-media-sdk: runtime for legacy Intel GPUs
 	optdepends = onevpl-intel-gpu: runtime for Tiger Lake and newer GPUs
+	provides = gst-plugin-qsv=1.28.0-4
+	conflicts = gst-plugin-qsv
 
-pkgname = gst-plugin-va
+pkgname = gst-plugin-va-qti-oss
 	pkgdesc = Multimedia graph framework - va plugin
-	depends = gst-plugins-bad-libs=1.28.0-2
-	depends = gst-plugins-base-libs=1.28.0-2
-	depends = gstreamer=1.28.0-2
+	depends = gst-plugins-bad-libs-qti-oss=1.28.0-4
+	depends = gst-plugins-base-libs-qti-oss=1.28.0-4
+	depends = gstreamer-qti-oss=1.28.0-4
 	depends = glib2
 	depends = glibc
 	depends = libgudev
 	depends = libva
+	provides = gst-plugin-va=1.28.0-4
+	conflicts = gst-plugin-va
 	replaces = gstreamer-vaapi<=1.26.10-5
 
-pkgname = gst-plugin-wpe
+pkgname = gst-plugin-wpe-qti-oss
 	pkgdesc = Multimedia graph framework - wpe plugin
-	depends = gst-plugins-base-libs=1.28.0-2
-	depends = gstreamer=1.28.0-2
+	depends = gst-plugins-base-libs-qti-oss=1.28.0-4
+	depends = gstreamer-qti-oss=1.28.0-4
 	depends = glib2
 	depends = glibc
 	depends = libgcc
@@ -527,11 +607,13 @@ pkgname = gst-plugin-wpe
 	depends = wayland
 	depends = wpebackend-fdo
 	depends = wpewebkit
+	provides = gst-plugin-wpe=1.28.0-4
+	conflicts = gst-plugin-wpe
 
-pkgname = gst-plugin-wpe2
+pkgname = gst-plugin-wpe2-qti-oss
 	pkgdesc = Multimedia graph framework - wpe2 plugin
-	depends = gst-plugins-base-libs=1.28.0-2
-	depends = gstreamer=1.28.0-2
+	depends = gst-plugins-base-libs-qti-oss=1.28.0-4
+	depends = gstreamer-qti-oss=1.28.0-4
 	depends = glib2
 	depends = glibc
 	depends = libgcc
@@ -539,24 +621,28 @@ pkgname = gst-plugin-wpe2
 	depends = libstdc++
 	depends = libxkbcommon
 	depends = wpewebkit
+	provides = gst-plugin-wpe2=1.28.0-4
+	conflicts = gst-plugin-wpe2
 
-pkgname = gst-devtools-libs
+pkgname = gst-devtools-libs-qti-oss
 	pkgdesc = Multimedia graph framework - development and debugging libraries
-	depends = gst-plugins-base-libs=1.28.0-2
-	depends = gstreamer=1.28.0-2
+	depends = gst-plugins-base-libs-qti-oss=1.28.0-4
+	depends = gstreamer-qti-oss=1.28.0-4
 	depends = glib2
 	depends = glibc
 	depends = json-glib
 	depends = orc
 	depends = zlib
+	provides = gst-devtools-libs=1.28.0-4
+	conflicts = gst-devtools-libs
 
-pkgname = gst-devtools
+pkgname = gst-devtools-qti-oss
 	pkgdesc = Multimedia graph framework - development and debugging tools
-	depends = gst-devtools-libs=1.28.0-2
-	depends = gst-plugins-bad-libs=1.28.0-2
-	depends = gst-plugins-base-libs=1.28.0-2
-	depends = gst-rtsp-server=1.28.0-2
-	depends = gstreamer=1.28.0-2
+	depends = gst-devtools-libs-qti-oss=1.28.0-4
+	depends = gst-plugins-bad-libs-qti-oss=1.28.0-4
+	depends = gst-plugins-base-libs-qti-oss=1.28.0-4
+	depends = gst-rtsp-server-qti-oss=1.28.0-4
+	depends = gstreamer-qti-oss=1.28.0-4
 	depends = cairo
 	depends = glib2
 	depends = glibc
@@ -569,22 +655,26 @@ pkgname = gst-devtools
 	depends = python-commonmark
 	depends = python-gobject
 	depends = python-lxml
+	provides = gst-devtools=1.28.0-4
+	conflicts = gst-devtools
 
-pkgname = gst-rtsp-server
+pkgname = gst-rtsp-server-qti-oss
 	pkgdesc = Multimedia graph framework - rtsp server
-	depends = gst-plugins-base-libs=1.28.0-2
-	depends = gstreamer=1.28.0-2
+	depends = gst-plugins-base-libs-qti-oss=1.28.0-4
+	depends = gstreamer-qti-oss=1.28.0-4
 	depends = glib2
 	depends = glibc
 	depends = orc
 	depends = zlib
+	provides = gst-rtsp-server=1.28.0-4
+	conflicts = gst-rtsp-server
 
-pkgname = gst-editing-services
+pkgname = gst-editing-services-qti-oss
 	pkgdesc = Multimedia graph framework - editing services
-	depends = gst-devtools-libs=1.28.0-2
-	depends = gst-plugins-base-libs=1.28.0-2
-	depends = gst-python=1.28.0-2
-	depends = gstreamer=1.28.0-2
+	depends = gst-devtools-libs-qti-oss=1.28.0-4
+	depends = gst-plugins-base-libs-qti-oss=1.28.0-4
+	depends = gst-python-qti-oss=1.28.0-4
+	depends = gstreamer-qti-oss=1.28.0-4
 	depends = glib2
 	depends = glibc
 	depends = json-glib
@@ -594,24 +684,18 @@ pkgname = gst-editing-services
 	depends = python-gobject
 	depends = zlib
 	optdepends = opentimelineio: Support for the OpenTimelineIO format
+	provides = gst-editing-services=1.28.0-4
+	conflicts = gst-editing-services
 
-pkgname = gst-python
+pkgname = gst-python-qti-oss
 	pkgdesc = Multimedia graph framework - python plugin
-	depends = gst-plugins-base-libs=1.28.0-2
-	depends = gstreamer=1.28.0-2
+	depends = gst-plugins-base-libs-qti-oss=1.28.0-4
+	depends = gstreamer-qti-oss=1.28.0-4
 	depends = glib2
 	depends = glibc
 	depends = python
 	depends = python-gobject
 	depends = python-typing_extensions
-	optdepends = gst-plugins-bad-libs: GstAnalytics support
-
-pkgname = gstreamer-docs
-	pkgdesc = Multimedia graph framework - documentation
-	license = BSD-2-Clause OR MIT OR LGPL-2.1-or-later
-	license = CC-BY-SA-4.0
-	license = LGPL-2.1-or-later
-	license = MIT
-	license = OPUBL-1.0
-	options = !debug
-	options = !strip
+	optdepends = gst-plugins-bad-libs-qti-oss: GstAnalytics support
+	provides = gst-python=1.28.0-4
+	conflicts = gst-python

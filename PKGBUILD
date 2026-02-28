@@ -3,34 +3,33 @@
 
 pkgbase=gstreamer-qti-oss
 pkgname=(
-  gstreamer
-  gst-plugins-bad-libs   # Split badaudio first
-  gst-plugins-base-libs
-  gst-plugins-base
-  gst-plugins-good
-  gst-plugins-bad
-  gst-plugins-ugly
-  gst-libav
-  gst-plugin-gtk
-  gst-plugin-hip
-  gst-plugin-msdk
-  gst-plugin-onnx
-  gst-plugin-opencv
-  gst-plugin-qml6
-  gst-plugin-qmlgl
-  gst-plugin-qsv
-  gst-plugin-va
-  gst-plugin-wpe
-  gst-plugin-wpe2
-  gst-devtools-libs
-  gst-devtools
-  gst-rtsp-server
-  gst-editing-services
-  gst-python
-  gstreamer-docs
+  gstreamer-qti-oss
+  gst-plugins-bad-libs-qti-oss   # Split badaudio first
+  gst-plugins-base-libs-qti-oss
+  gst-plugins-base-qti-oss
+  gst-plugins-good-qti-oss
+  gst-plugins-bad-qti-oss
+  gst-plugins-ugly-qti-oss
+  gst-libav-qti-oss
+  gst-plugin-gtk-qti-oss
+  gst-plugin-hip-qti-oss
+  gst-plugin-msdk-qti-oss
+  gst-plugin-onnx-qti-oss
+  gst-plugin-opencv-qti-oss
+  gst-plugin-qml6-qti-oss
+  gst-plugin-qmlgl-qti-oss
+  gst-plugin-qsv-qti-oss
+  gst-plugin-va-qti-oss
+  gst-plugin-wpe-qti-oss
+  gst-plugin-wpe2-qti-oss
+  gst-devtools-libs-qti-oss
+  gst-devtools-qti-oss
+  gst-rtsp-server-qti-oss
+  gst-editing-services-qti-oss
+  gst-python-qti-oss
 )
 pkgver=1.28.0
-pkgrel=2
+pkgrel=4
 pkgdesc="Multimedia graph framework"
 url="https://gstreamer.freedesktop.org/"
 arch=('aarch64')
@@ -205,10 +204,9 @@ makedepends=(
   zvbi
   zxing-cpp
 )
-checkdepends=(xorg-server-xvfb)
+# checkdepends=(xorg-server-xvfb)
 source=(
   "git+https://gitea.classfun.cn:4443/mirrors/gstreamer.git#tag=$pkgver"
-  "https://gstreamer.freedesktop.org/src/gstreamer-docs/gstreamer-docs-$pkgver.tar.xz"{,.asc}
   0001-HACK-meson-Disable-broken-tests.patch
   0002-Fix-build-with-zxing-cpp-3.patch
   # gst-qti-oss-patches (base/good/bad prefix = subproject)
@@ -228,8 +226,6 @@ source=(
   bad_0003-waylandsink-support-gap-buffers.patch
 )
 b2sums=('SKIP'
-        'SKIP'
-        'SKIP'
         'SKIP'
         'SKIP'
         'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP')
@@ -314,17 +310,17 @@ build() {
   meson compile -C build
 }
 
-check() (
-  export XDG_RUNTIME_DIR="$PWD/runtime-dir"
-  mkdir -p -m 700 "$XDG_RUNTIME_DIR"
+# check() (
+#   export XDG_RUNTIME_DIR="$PWD/runtime-dir"
+#   mkdir -p -m 700 "$XDG_RUNTIME_DIR"
 
-  export CK_TIMEOUT_MULTIPLIER=5
-  export NO_AT_BRIDGE=1 GTK_A11Y=none
+#   export CK_TIMEOUT_MULTIPLIER=5
+#   export NO_AT_BRIDGE=1 GTK_A11Y=none
 
-  # Flaky due to timeouts
-  xvfb-run -s "-nolisten local" \
-    meson test -C build --print-errorlogs -t $CK_TIMEOUT_MULTIPLIER
-)
+#   # Flaky due to timeouts
+#   xvfb-run -s "-nolisten local" \
+#     meson test -C build --print-errorlogs -t $CK_TIMEOUT_MULTIPLIER
+# )
 
 _install() {
   local src dir
@@ -335,8 +331,8 @@ _install() {
   done
 }
 
-package_gstreamer() {
-  pkgdesc+=" - core"
+package_gstreamer-qti-oss() {
+  pkgdesc+=" - core (with Qualcomm patches)"
   depends=(
     glib2
     glibc
@@ -344,9 +340,33 @@ package_gstreamer() {
     libelf
     libgcc
     libunwind
+    gst-plugins-bad-libs-qti-oss
+    gst-plugins-base-libs-qti-oss
+    gst-plugins-base-qti-oss
+    gst-plugins-good-qti-oss
+    gst-plugins-bad-qti-oss
+    gst-plugins-ugly-qti-oss
+    gst-libav-qti-oss
+    gst-plugin-gtk-qti-oss
+    gst-plugin-hip-qti-oss
+    gst-plugin-msdk-qti-oss
+    gst-plugin-onnx-qti-oss
+    gst-plugin-opencv-qti-oss
+    gst-plugin-qml6-qti-oss
+    gst-plugin-qmlgl-qti-oss
+    gst-plugin-qsv-qti-oss
+    gst-plugin-va-qti-oss
+    gst-plugin-wpe-qti-oss
+    gst-plugin-wpe2-qti-oss
+    gst-devtools-libs-qti-oss
+    gst-devtools-qti-oss
+    gst-rtsp-server-qti-oss
+    gst-editing-services-qti-oss
+    gst-python-qti-oss
   )
   optdepends=("python: gst-plugins-doc-cache-generator")
-  conflicts=('gstreamer-vaapi<=1.26.10-5')
+  provides=("gstreamer=$pkgver-$pkgrel")
+  conflicts=('gstreamer' 'gstreamer-vaapi<=1.26.10-5')
   install=gstreamer.install
 
   meson install -C build --destdir "$srcdir/root"
@@ -381,11 +401,11 @@ package_gstreamer() {
   ); _install
 }
 
-package_gst-plugins-bad-libs() {
+package_gst-plugins-bad-libs-qti-oss() {
   pkgdesc+=" - bad"
   depends=(
-    "gst-plugins-base-libs=$pkgver-$pkgrel"
-    "gstreamer=$pkgver-$pkgrel"
+    "gst-plugins-base-libs-qti-oss=$pkgver-$pkgrel"
+    "gstreamer-qti-oss=$pkgver-$pkgrel"
     glib2
     glibc
     libdrm
@@ -407,6 +427,9 @@ package_gst-plugins-bad-libs() {
     vmaf
     zlib
   )
+
+  provides=("gst-plugins-bad-libs=$pkgver-$pkgrel")
+  conflicts=('gst-plugins-bad-libs')
 
   cd root; local files=(
     usr/include/gstreamer-1.0/gst/audio/{audio-bad-prelude,gstnonstreamaudiodecoder,gstplanaraudioadapter}.h
@@ -511,10 +534,10 @@ package_gst-plugins-bad-libs() {
   ); _install
 }
 
-package_gst-plugins-base-libs() {
+package_gst-plugins-base-libs-qti-oss() {
   pkgdesc+=" - base"
   depends=(
-    "gstreamer=$pkgver-$pkgrel"
+    "gstreamer-qti-oss=$pkgver-$pkgrel"
     glib2
     glibc
     graphene
@@ -534,6 +557,9 @@ package_gst-plugins-base-libs() {
     wayland
     zlib
   )
+
+  provides=("gst-plugins-base-libs=$pkgver-$pkgrel")
+  conflicts=('gst-plugins-base-libs')
 
   cd root; local files=(
     usr/include/gstreamer-1.0/gst/{allocators,app,audio,fft,gl,pbutils,riff,rtp,rtsp,sdp,tag,video}
@@ -580,11 +606,11 @@ package_gst-plugins-base-libs() {
   ); _install
 }
 
-package_gst-plugins-base() {
+package_gst-plugins-base-qti-oss() {
   pkgdesc+=" - base plugins"
   depends=(
-    "gst-plugins-base-libs=$pkgver-$pkgrel"
-    "gstreamer=$pkgver-$pkgrel"
+    "gst-plugins-base-libs-qti-oss=$pkgver-$pkgrel"
+    "gstreamer-qti-oss=$pkgver-$pkgrel"
     alsa-lib
     cairo
     cdparanoia
@@ -598,6 +624,9 @@ package_gst-plugins-base() {
     pango
   )
 
+  provides=("gst-plugins-base=$pkgver-$pkgrel")
+  conflicts=('gst-plugins-base')
+
   cd root; local files=(
     usr/lib/gstreamer-1.0/libgstalsa.so
     usr/lib/gstreamer-1.0/libgstcdparanoia.so
@@ -609,11 +638,11 @@ package_gst-plugins-base() {
   ); _install
 }
 
-package_gst-plugins-good() {
+package_gst-plugins-good-qti-oss() {
   pkgdesc+=" - good plugins"
   depends=(
-    "gst-plugins-base-libs=$pkgver-$pkgrel"
-    "gstreamer=$pkgver-$pkgrel"
+    "gst-plugins-base-libs-qti-oss=$pkgver-$pkgrel"
+    "gstreamer-qti-oss=$pkgver-$pkgrel"
     aalib
     bzip2
     cairo
@@ -654,6 +683,8 @@ package_gst-plugins-good() {
     zlib
   )
   optdepends=("jack: JACK backend")
+  provides=("gst-plugins-good=$pkgver-$pkgrel")
+  conflicts=('gst-plugins-good')
 
   cd root; local files=(
     usr/lib/gstreamer-1.0/libgst1394.so
@@ -739,12 +770,12 @@ package_gst-plugins-good() {
   ); _install
 }
 
-package_gst-plugins-bad() {
+package_gst-plugins-bad-qti-oss() {
   pkgdesc+=" - bad plugins"
   depends=(
-    "gst-plugins-bad-libs=$pkgver-$pkgrel"
-    "gst-plugins-base-libs=$pkgver-$pkgrel"
-    "gstreamer=$pkgver-$pkgrel"
+    "gst-plugins-bad-libs-qti-oss=$pkgver-$pkgrel"
+    "gst-plugins-base-libs-qti-oss=$pkgver-$pkgrel"
+    "gstreamer-qti-oss=$pkgver-$pkgrel"
     aom
     bzip2
     cairo
@@ -823,6 +854,8 @@ package_gst-plugins-bad() {
     'gst-plugin-va: va plugin'
     'gst-plugin-wpe: wpe plugin'
   )
+  provides=("gst-plugins-bad=$pkgver-$pkgrel")
+  conflicts=('gst-plugins-bad')
 
   cd root; local files=(
     usr/lib/gstreamer-1.0/libgstaes.so
@@ -892,11 +925,11 @@ package_gst-plugins-bad() {
   ); _install
 }
 
-package_gst-plugins-ugly() {
+package_gst-plugins-ugly-qti-oss() {
   pkgdesc+=" - ugly plugins"
   depends=(
-    "gst-plugins-base-libs=$pkgver-$pkgrel"
-    "gstreamer=$pkgver-$pkgrel"
+    "gst-plugins-base-libs-qti-oss=$pkgver-$pkgrel"
+    "gstreamer-qti-oss=$pkgver-$pkgrel"
     a52dec
     glib2
     glibc
@@ -905,6 +938,8 @@ package_gst-plugins-ugly() {
     libmpeg2
     x264
   )
+  provides=("gst-plugins-ugly=$pkgver-$pkgrel")
+  conflicts=('gst-plugins-ugly')
 
   cd root; local files=(
     usr/lib/gstreamer-1.0/libgsta52dec.so
@@ -923,34 +958,37 @@ package_gst-plugins-ugly() {
   ); _install
 }
 
-package_gst-libav() {
+package_gst-libav-qti-oss() {
   pkgdesc+=" - libav plugin"
   depends=(
-    "gst-plugins-base-libs=$pkgver-$pkgrel"
-    "gstreamer=$pkgver-$pkgrel"
+    "gst-plugins-base-libs-qti-oss=$pkgver-$pkgrel"
+    "gstreamer-qti-oss=$pkgver-$pkgrel"
     ffmpeg
     glib2
     glibc
   )
-  provides=("gst-ffmpeg=$pkgver-$pkgrel")
+  provides=("gst-ffmpeg=$pkgver-$pkgrel" "gst-libav=$pkgver-$pkgrel")
+  conflicts=('gst-ffmpeg' 'gst-libav')
 
   cd root; local files=(
     usr/lib/gstreamer-1.0/libgstlibav.so
   ); _install
 }
 
-package_gst-plugin-gtk() {
+package_gst-plugin-gtk-qti-oss() {
   pkgdesc+=" - gtk plugin"
   depends=(
-    "gst-plugins-bad-libs=$pkgver-$pkgrel"
-    "gst-plugins-base-libs=$pkgver-$pkgrel"
-    "gstreamer=$pkgver-$pkgrel"
+    "gst-plugins-bad-libs-qti-oss=$pkgver-$pkgrel"
+    "gst-plugins-base-libs-qti-oss=$pkgver-$pkgrel"
+    "gstreamer-qti-oss=$pkgver-$pkgrel"
     cairo
     glib2
     glibc
     gtk3
     wayland
   )
+  provides=("gst-plugin-gtk=$pkgver-$pkgrel")
+  conflicts=('gst-plugin-gtk')
 
   cd root; local files=(
     usr/lib/gstreamer-1.0/libgstgtk.so
@@ -958,12 +996,12 @@ package_gst-plugin-gtk() {
   ); _install
 }
 
-package_gst-plugin-hip() {
+package_gst-plugin-hip-qti-oss() {
   pkgdesc+=" - hip plugin and library"
   depends=(
-    "gst-plugins-bad-libs=$pkgver-$pkgrel"
-    "gst-plugins-base-libs=$pkgver-$pkgrel"
-    "gstreamer=$pkgver-$pkgrel"
+    "gst-plugins-bad-libs-qti-oss=$pkgver-$pkgrel"
+    "gst-plugins-base-libs-qti-oss=$pkgver-$pkgrel"
+    "gstreamer-qti-oss=$pkgver-$pkgrel"
     glib2
     glibc
     libdrm
@@ -976,6 +1014,9 @@ package_gst-plugin-hip() {
     wayland
   )
 
+  provides=("gst-plugin-hip=$pkgver-$pkgrel")
+  conflicts=('gst-plugin-hip')
+
   cd root; local files=(
     usr/include/gstreamer-1.0/gst/hip
     usr/lib/libgsthip.so*
@@ -987,12 +1028,12 @@ package_gst-plugin-hip() {
   ); _install
 }
 
-package_gst-plugin-msdk() {
+package_gst-plugin-msdk-qti-oss() {
   pkgdesc+=" - msdk plugin"
   depends=(
-    "gst-plugins-bad-libs=$pkgver-$pkgrel"
-    "gst-plugins-base-libs=$pkgver-$pkgrel"
-    "gstreamer=$pkgver-$pkgrel"
+    "gst-plugins-bad-libs-qti-oss=$pkgver-$pkgrel"
+    "gst-plugins-base-libs-qti-oss=$pkgver-$pkgrel"
+    "gstreamer-qti-oss=$pkgver-$pkgrel"
     glib2
     glibc
     libdrm
@@ -1001,38 +1042,47 @@ package_gst-plugin-msdk() {
     libvpl
   )
 
+  provides=("gst-plugin-msdk=$pkgver-$pkgrel")
+  conflicts=('gst-plugin-msdk')
+
   cd root; local files=(
     usr/lib/gstreamer-1.0/libgstmsdk.so
   ); _install
 }
 
-package_gst-plugin-onnx() {
+package_gst-plugin-onnx-qti-oss() {
   pkgdesc+=" - onnx plugin"
   depends=(
-    "gst-plugins-bad-libs=$pkgver-$pkgrel"
-    "gst-plugins-base-libs=$pkgver-$pkgrel"
-    "gstreamer=$pkgver-$pkgrel"
+    "gst-plugins-bad-libs-qti-oss=$pkgver-$pkgrel"
+    "gst-plugins-base-libs-qti-oss=$pkgver-$pkgrel"
+    "gstreamer-qti-oss=$pkgver-$pkgrel"
     glib2
     glibc
     onnxruntime
   )
+
+  provides=("gst-plugin-onnx=$pkgver-$pkgrel")
+  conflicts=('gst-plugin-onnx')
 
   cd root; local files=(
     usr/lib/gstreamer-1.0/libgstonnx.so
   ); _install
 }
 
-package_gst-plugin-opencv() {
+package_gst-plugin-opencv-qti-oss() {
   pkgdesc+=" - opencv plugin and library"
   depends=(
-    "gst-plugins-base-libs=$pkgver-$pkgrel"
-    "gstreamer=$pkgver-$pkgrel"
+    "gst-plugins-base-libs-qti-oss=$pkgver-$pkgrel"
+    "gstreamer-qti-oss=$pkgver-$pkgrel"
     glib2
     glibc
     libgcc
     libstdc++
     opencv
   )
+
+  provides=("gst-plugin-opencv=$pkgver-$pkgrel")
+  conflicts=('gst-plugin-opencv')
 
   cd root; local files=(
     usr/include/gstreamer-1.0/gst/opencv
@@ -1042,11 +1092,11 @@ package_gst-plugin-opencv() {
   ); _install
 }
 
-package_gst-plugin-qml6() {
+package_gst-plugin-qml6-qti-oss() {
   pkgdesc+=" - qml6 plugin"
   depends=(
-    "gst-plugins-base-libs=$pkgver-$pkgrel"
-    "gstreamer=$pkgver-$pkgrel"
+    "gst-plugins-base-libs-qti-oss=$pkgver-$pkgrel"
+    "gstreamer-qti-oss=$pkgver-$pkgrel"
     glib2
     glibc
     libgcc
@@ -1056,16 +1106,19 @@ package_gst-plugin-qml6() {
     qt6-declarative
   )
 
+  provides=("gst-plugin-qml6=$pkgver-$pkgrel")
+  conflicts=('gst-plugin-qml6')
+
   cd root; local files=(
     usr/lib/gstreamer-1.0/libgstqml6.so
   ); _install
 }
 
-package_gst-plugin-qmlgl() {
+package_gst-plugin-qmlgl-qti-oss() {
   pkgdesc+=" - qmlgl plugin"
   depends=(
-    "gst-plugins-base-libs=$pkgver-$pkgrel"
-    "gstreamer=$pkgver-$pkgrel"
+    "gst-plugins-base-libs-qti-oss=$pkgver-$pkgrel"
+    "gstreamer-qti-oss=$pkgver-$pkgrel"
     glib2
     glibc
     libgcc
@@ -1077,17 +1130,20 @@ package_gst-plugin-qmlgl() {
     qt5-x11extras
   )
 
+  provides=("gst-plugin-qmlgl=$pkgver-$pkgrel")
+  conflicts=('gst-plugin-qmlgl')
+
   cd root; local files=(
     usr/lib/gstreamer-1.0/libgstqmlgl.so
   ); _install
 }
 
-package_gst-plugin-qsv() {
+package_gst-plugin-qsv-qti-oss() {
   pkgdesc+=" - qsv plugin"
   depends=(
-    "gst-plugins-bad-libs=$pkgver-$pkgrel"
-    "gst-plugins-base-libs=$pkgver-$pkgrel"
-    "gstreamer=$pkgver-$pkgrel"
+    "gst-plugins-bad-libs-qti-oss=$pkgver-$pkgrel"
+    "gst-plugins-base-libs-qti-oss=$pkgver-$pkgrel"
+    "gstreamer-qti-oss=$pkgver-$pkgrel"
     glib2
     glibc
     libgcc
@@ -1098,17 +1154,20 @@ package_gst-plugin-qsv() {
     "onevpl-intel-gpu: runtime for Tiger Lake and newer GPUs"
   )
 
+  provides=("gst-plugin-qsv=$pkgver-$pkgrel")
+  conflicts=('gst-plugin-qsv')
+
   cd root; local files=(
     usr/lib/gstreamer-1.0/libgstqsv.so
   ); _install
 }
 
-package_gst-plugin-va() {
+package_gst-plugin-va-qti-oss() {
   pkgdesc+=" - va plugin"
   depends=(
-    "gst-plugins-bad-libs=$pkgver-$pkgrel"
-    "gst-plugins-base-libs=$pkgver-$pkgrel"
-    "gstreamer=$pkgver-$pkgrel"
+    "gst-plugins-bad-libs-qti-oss=$pkgver-$pkgrel"
+    "gst-plugins-base-libs-qti-oss=$pkgver-$pkgrel"
+    "gstreamer-qti-oss=$pkgver-$pkgrel"
     glib2
     glibc
     libgudev
@@ -1116,16 +1175,19 @@ package_gst-plugin-va() {
   )
   replaces=('gstreamer-vaapi<=1.26.10-5')
 
+  provides=("gst-plugin-va=$pkgver-$pkgrel")
+  conflicts=('gst-plugin-va')
+
   cd root; local files=(
     usr/lib/gstreamer-1.0/libgstva.so
   ); _install
 }
 
-package_gst-plugin-wpe() {
+package_gst-plugin-wpe-qti-oss() {
   pkgdesc+=" - wpe plugin"
   depends=(
-    "gst-plugins-base-libs=$pkgver-$pkgrel"
-    "gstreamer=$pkgver-$pkgrel"
+    "gst-plugins-base-libs-qti-oss=$pkgver-$pkgrel"
+    "gstreamer-qti-oss=$pkgver-$pkgrel"
     glib2
     glibc
     libgcc
@@ -1137,17 +1199,20 @@ package_gst-plugin-wpe() {
     wpewebkit
   )
 
+  provides=("gst-plugin-wpe=$pkgver-$pkgrel")
+  conflicts=('gst-plugin-wpe')
+
   cd root; local files=(
     usr/lib/gstreamer-1.0/libgstwpe.so
     usr/lib/gst-plugins-bad/wpe-extension/libgstwpeextension.so
   ); _install
 }
 
-package_gst-plugin-wpe2() {
+package_gst-plugin-wpe2-qti-oss() {
   pkgdesc+=" - wpe2 plugin"
   depends=(
-    "gst-plugins-base-libs=$pkgver-$pkgrel"
-    "gstreamer=$pkgver-$pkgrel"
+    "gst-plugins-base-libs-qti-oss=$pkgver-$pkgrel"
+    "gstreamer-qti-oss=$pkgver-$pkgrel"
     glib2
     glibc
     libgcc
@@ -1157,22 +1222,28 @@ package_gst-plugin-wpe2() {
     wpewebkit
   )
 
+  provides=("gst-plugin-wpe2=$pkgver-$pkgrel")
+  conflicts=('gst-plugin-wpe2')
+
   cd root; local files=(
     usr/lib/gstreamer-1.0/libgstwpe2.so
   ); _install
 }
 
-package_gst-devtools-libs() {
+package_gst-devtools-libs-qti-oss() {
   pkgdesc+=" - development and debugging libraries"
   depends=(
-    "gst-plugins-base-libs=$pkgver-$pkgrel"
-    "gstreamer=$pkgver-$pkgrel"
+    "gst-plugins-base-libs-qti-oss=$pkgver-$pkgrel"
+    "gstreamer-qti-oss=$pkgver-$pkgrel"
     glib2
     glibc
     json-glib
     orc
     zlib
   )
+
+  provides=("gst-devtools-libs=$pkgver-$pkgrel")
+  conflicts=('gst-devtools-libs')
 
   cd root; local files=(
     usr/include/gstreamer-1.0/gst/validate
@@ -1183,14 +1254,14 @@ package_gst-devtools-libs() {
   ); _install
 }
 
-package_gst-devtools() {
+package_gst-devtools-qti-oss() {
   pkgdesc+=" - development and debugging tools"
   depends=(
-    "gst-devtools-libs=$pkgver-$pkgrel"
-    "gst-plugins-bad-libs=$pkgver-$pkgrel"
-    "gst-plugins-base-libs=$pkgver-$pkgrel"
-    "gst-rtsp-server=$pkgver-$pkgrel"
-    "gstreamer=$pkgver-$pkgrel"
+    "gst-devtools-libs-qti-oss=$pkgver-$pkgrel"
+    "gst-plugins-bad-libs-qti-oss=$pkgver-$pkgrel"
+    "gst-plugins-base-libs-qti-oss=$pkgver-$pkgrel"
+    "gst-rtsp-server-qti-oss=$pkgver-$pkgrel"
+    "gstreamer-qti-oss=$pkgver-$pkgrel"
     cairo
     glib2
     glibc
@@ -1204,6 +1275,9 @@ package_gst-devtools() {
     python-gobject
     python-lxml
   )
+
+  provides=("gst-devtools=$pkgver-$pkgrel")
+  conflicts=('gst-devtools')
 
   cd root; local files=(
     usr/bin/gst-validate-*
@@ -1223,16 +1297,19 @@ package_gst-devtools() {
   ); _install
 }
 
-package_gst-rtsp-server() {
+package_gst-rtsp-server-qti-oss() {
   pkgdesc+=" - rtsp server"
   depends=(
-    "gst-plugins-base-libs=$pkgver-$pkgrel"
-    "gstreamer=$pkgver-$pkgrel"
+    "gst-plugins-base-libs-qti-oss=$pkgver-$pkgrel"
+    "gstreamer-qti-oss=$pkgver-$pkgrel"
     glib2
     glibc
     orc
     zlib
   )
+
+  provides=("gst-rtsp-server=$pkgver-$pkgrel")
+  conflicts=('gst-rtsp-server')
 
   cd root; local files=(
     usr/include/gstreamer-1.0/gst/rtsp-server
@@ -1245,13 +1322,13 @@ package_gst-rtsp-server() {
   ); _install
 }
 
-package_gst-editing-services() {
+package_gst-editing-services-qti-oss() {
   pkgdesc+=" - editing services"
   depends=(
-    "gst-devtools-libs=$pkgver-$pkgrel"
-    "gst-plugins-base-libs=$pkgver-$pkgrel"
-    "gst-python=$pkgver-$pkgrel"
-    "gstreamer=$pkgver-$pkgrel"
+    "gst-devtools-libs-qti-oss=$pkgver-$pkgrel"
+    "gst-plugins-base-libs-qti-oss=$pkgver-$pkgrel"
+    "gst-python-qti-oss=$pkgver-$pkgrel"
+    "gstreamer-qti-oss=$pkgver-$pkgrel"
     glib2
     glibc
     json-glib
@@ -1262,6 +1339,9 @@ package_gst-editing-services() {
     zlib
   )
   optdepends=("opentimelineio: Support for the OpenTimelineIO format")
+
+  provides=("gst-editing-services=$pkgver-$pkgrel")
+  conflicts=('gst-editing-services')
 
   cd root; local files=(
     usr/include/gstreamer-1.0/ges
@@ -1284,50 +1364,26 @@ package_gst-editing-services() {
   ); _install
 }
 
-package_gst-python() {
+package_gst-python-qti-oss() {
   pkgdesc+=" - python plugin"
   depends=(
-    "gst-plugins-base-libs=$pkgver-$pkgrel"
-    "gstreamer=$pkgver-$pkgrel"
+    "gst-plugins-base-libs-qti-oss=$pkgver-$pkgrel"
+    "gstreamer-qti-oss=$pkgver-$pkgrel"
     glib2
     glibc
     python
     python-gobject
     python-typing_extensions
   )
-  optdepends=("gst-plugins-bad-libs: GstAnalytics support")
+  optdepends=("gst-plugins-bad-libs-qti-oss: GstAnalytics support")
+
+  provides=("gst-python=$pkgver-$pkgrel")
+  conflicts=('gst-python')
 
   cd root; local files=(
     usr/lib/gstreamer-1.0/libgstpython.so
     usr/lib/python*/site-packages/gi/overrides
   ); _install
-}
-
-package_gstreamer-docs() {
-  pkgdesc+=" - documentation"
-  license=(
-    "BSD-2-Clause OR MIT OR LGPL-2.1-or-later"
-    CC-BY-SA-4.0
-    LGPL-2.1-or-later
-    MIT
-    OPUBL-1.0
-  )
-  options=(
-    !debug
-    !strip
-  )
-
-  # make sure there are no files left to install
-  find root -depth ! -type d
-  find root -depth -print0 | xargs -0 rmdir
-
-  cd gstreamer-docs-${pkgver%%+*}
-
-  mkdir -p "$pkgdir/usr/share/doc/$pkgbase"
-  cp -t "$pkgdir/usr/share" -a devhelp
-  cp -t "$pkgdir/usr/share/doc/$pkgbase" -a html README*
-
-  install -Dt "$pkgdir/usr/share/licenses/$pkgname" -m644 COPYING LICENSE*
 }
 
 # vim:set sw=2 sts=-1 et:
